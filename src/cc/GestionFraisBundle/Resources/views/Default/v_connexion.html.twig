@@ -1,0 +1,17 @@
+
+{% extends "ccGestionFraisBundle::v_generale.html.twig" %}
+
+{% block corps %}
+    {# {{ form(form) }} #}
+    <h3>Veuillez vous authentifier :</h3>
+    {{ form_start(form) }}
+        {{ form_label(form.login, "Login") }}
+        {{ form_widget(form.login) }}
+        {{ form_label(form.mdp, "Mot de passe") }}
+        {{ form_widget(form.mdp) }}
+        {{ form_label(form.profil, "Profil") }}
+        {{ form_widget(form.profil) }} </br> </br>
+        {{ form_widget(form.valider) }}
+        {{ form_widget(form.annuler) }}
+    {{ form_end(form) }}
+{% endblock %}
