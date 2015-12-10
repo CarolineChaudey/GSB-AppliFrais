@@ -1,0 +1,7 @@
+cc_gestion_frais:
+    resource: "@ccGestionFraisBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
