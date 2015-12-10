@@ -5,6 +5,7 @@ namespace cc\GestionFraisBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use cc\GestionFraisBundle\BaseDeDonnees\Services\PdoGsb;
 
 class DefaultController extends Controller
 {
@@ -21,14 +22,19 @@ class DefaultController extends Controller
         
         $form->handleRequest($request);
         if($form->isValid()){
-            $login = $form->getData('login');
-            $mdp = $form->getData('mdp');
-            $profil = $form->getData('profil');
-            $infosCo = array(
-                'login'=>$login,
-                'mdp'=>$mdp,
-                'profil'=>$profil
-            );
+            $login = $form['login']->getData();
+            $mdp = $form['mdp']->getData();
+            $profil = $form['profil']->getData();
+            
+            if($profil == "visiteur"){
+                //return new Response("Visiteur");
+                $pdo = $this->container->get('pdo')->getPdoGsb();
+                $ligne = $pdo->getInfosVisiteur($login, $mdp);
+                return new Response($ligne['login']." ".$ligne['mdp']);
+            }
+            else if($profil == "comptable"){
+                return new Response("comptable");
+            }
             
             return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('login'=>$login,
                                                                                         'mdp'=>$mdp,

@@ -2,3 +2,6 @@ services:
 #    cc_gestion_frais.example:
 #        class: cc\GestionFraisBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+    pdo :
+        class : cc\GestionFraisBundle\BaseDeDonnees\Services\PdoGsb
