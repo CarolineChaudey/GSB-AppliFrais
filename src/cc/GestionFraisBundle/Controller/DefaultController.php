@@ -26,19 +26,17 @@ class DefaultController extends Controller
             $mdp = $form['mdp']->getData();
             $profil = $form['profil']->getData();
             
+            $visiteur = null;
             if($profil == "visiteur"){
-                //return new Response("Visiteur");
-                $pdo = $this->container->get('pdo')->getPdoGsb();
-                $ligne = $pdo->getInfosVisiteur($login, $mdp);
-                return new Response($ligne['login']." ".$ligne['mdp']);
+                $repo = $this->getDoctrine()->getManager()->getRepository('ccGestionFraisBundle:Visiteur');
+                $visiteur = $repo->trouverVisiteur($login, $mdp);
+                
             }
             else if($profil == "comptable"){
                 return new Response("comptable");
             }
             
-            return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('login'=>$login,
-                                                                                        'mdp'=>$mdp,
-                                                                                        'profil'=>$profil));
+            return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('visiteur' => $visiteur));
         }
         
         return $this->render('ccGestionFraisBundle:Default:v_connexion.html.twig', array('form'=>$form->createView()));
