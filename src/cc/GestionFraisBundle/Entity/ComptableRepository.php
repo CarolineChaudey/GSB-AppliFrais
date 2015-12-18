@@ -12,7 +12,16 @@ class ComptableRepository extends \Doctrine\ORM\EntityRepository
 {
     
     public function trouverComptable($login, $mdp){
-        $comptable = $this->createQueryBuilder('c');
+        
+        $comptable = $this->createQueryBuilder('c')
+                ->where('c.login = :login')
+                ->setParameter('login', $login)
+                ->andWhere('c.mdp = :mdp')
+                ->setParameter('mdp', $mdp)
+                ->getQuery()
+                ->getOneOrNullResult();
+        return $comptable;
+                
     }
     
 }
