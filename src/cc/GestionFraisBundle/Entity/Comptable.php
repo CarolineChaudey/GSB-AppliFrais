@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Comptable
  *
  * @ORM\Table(name="Comptable")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="cc\GestionFraisBundle\Entity\ComptableRepository")
  */
 class Comptable
 {
