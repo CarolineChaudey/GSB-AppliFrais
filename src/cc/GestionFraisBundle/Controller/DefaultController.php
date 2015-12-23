@@ -39,7 +39,12 @@ class DefaultController extends Controller
                 
             }
             
-            return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('comptable' => $comptable));
+            if($user !== null){
+                return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
+            }
+            else{
+                return $this->render('ccGestionFraisBundle:Default:erreurCo.html.twig');
+            }
         }
         
         return $this->render('ccGestionFraisBundle:Default:v_connexion.html.twig', array('form'=>$form->createView()));
