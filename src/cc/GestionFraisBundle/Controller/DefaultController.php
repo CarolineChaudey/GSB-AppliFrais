@@ -40,10 +40,12 @@ class DefaultController extends Controller
             }
             
             if($user !== null){
+                $request->getSession()->set('user', $user);
                 return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
             }
             else{
-                return $this->render('ccGestionFraisBundle:Default:erreurCo.html.twig');
+                //return $this->render('ccGestionFraisBundle:Default:erreurCo.html.twig');
+                $this->addFlash('fail', 'Identifiants incorrects : avez-vous sélectionné le bon profil ?');
             }
         }
         

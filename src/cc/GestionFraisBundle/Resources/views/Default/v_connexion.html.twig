@@ -1,8 +1,18 @@
 
 {% extends "ccGestionFraisBundle::v_generale.html.twig" %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{asset('bundles/ccgestionfrais/css/erreur_co.css')}}" type="text/css" />
+{% endblock %}
+    
 {% block corps %}
-    {# {{ form(form) }} #}
+    
+    {% for flash_message in app.session.flashbag.get('fail') %}
+        <div class="erreurco" >
+            {{flash_message}}
+        </div>
+    {% endfor %}
+    
     <h3>Veuillez vous authentifier :</h3>
     {{ form_start(form) }}
         {{ form_label(form.login, "Login") }}
