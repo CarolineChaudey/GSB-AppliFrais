@@ -35,13 +35,18 @@ class DefaultController extends Controller
             else if($profil == "comptable"){
                 $repo = $this->getDoctrine()->getManager()->getRepository('ccGestionFraisBundle:Comptable');
                 $comptable = $repo->trouverComptable($login, $mdp);
-                $user = $comptable;
-                
+                $user = $comptable;    
             }
             
             if($user !== null){
                 $request->getSession()->set('user', $user);
-                return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
+                $request->getSession()->set('profil', $profil);
+                if($request->getSession()->get('profil') === "visiteur"){
+                    return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
+                }
+                else if($request->getSession()->get('profil') === "comptable"){
+                    return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
+                }
             }
             else{
                 //return $this->render('ccGestionFraisBundle:Default:erreurCo.html.twig');

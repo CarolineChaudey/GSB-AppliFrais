@@ -15,4 +15,5 @@ and open the template in the editor.
     border: solid;
     border-radius: 10px;
     width: 50%;
+    border-width: 1px;
 }
