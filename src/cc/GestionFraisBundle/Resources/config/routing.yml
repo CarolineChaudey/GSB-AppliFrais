@@ -5,3 +5,7 @@ cc_gestion_frais_homepage:
 connexion:
     path:    /
     defaults:  {_controller: ccGestionFraisBundle:Default:index}
+    
+visiteur:
+    path:    /visiteur
+    defaults:  {_controller: ccGestionFraisBundle:Visiteur:index}

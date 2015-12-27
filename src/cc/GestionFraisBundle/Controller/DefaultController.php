@@ -42,7 +42,8 @@ class DefaultController extends Controller
                 $request->getSession()->set('user', $user);
                 $request->getSession()->set('profil', $profil);
                 if($request->getSession()->get('profil') === "visiteur"){
-                    return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
+                    //return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
+                    $this->redirectToRoute('visiteur');
                 }
                 else if($request->getSession()->get('profil') === "comptable"){
                     return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
