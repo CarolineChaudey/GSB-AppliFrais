@@ -11,6 +11,10 @@ class DefaultController extends Controller
 {
     public function indexAction(Request $request)
     {
+        
+        $request->getSession()->set('user', null);
+        $request->getSession()->set('profil', null);
+        
         $form = $this->createFormBuilder()
                 ->add('login', 'text')
                 ->add('mdp', 'password')
@@ -41,11 +45,12 @@ class DefaultController extends Controller
             if($user !== null){
                 $request->getSession()->set('user', $user);
                 $request->getSession()->set('profil', $profil);
-                if($request->getSession()->get('profil') === "visiteur"){
+                if($request->getSession()->get('profil') === 'visiteur'){
+                    //$this->addFlash('fail', 'test');
                     //return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
-                    $this->redirectToRoute('visiteur');
+                    return $this->redirectToRoute('visiteur');
                 }
-                else if($request->getSession()->get('profil') === "comptable"){
+                else if($request->getSession()->get('profil') === 'comptable'){
                     return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
                 }
             }
@@ -57,4 +62,13 @@ class DefaultController extends Controller
         
         return $this->render('ccGestionFraisBundle:Default:v_connexion.html.twig', array('form'=>$form->createView()));
     }
+    
+    /*
+    public function seDeconnecter(Request $request){
+        $request->getSession()->set('user', null);
+        $request->getSession()->set('profil', null);
+        
+        return 
+    }
+    */
 }
