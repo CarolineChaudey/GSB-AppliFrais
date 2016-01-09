@@ -9,3 +9,7 @@ connexion:
 visiteur:
     path:    /visiteur
     defaults:  {_controller: ccGestionFraisBundle:Visiteur:index}
+    
+saisieFiche:
+    path:    /saisie
+    defaults:  {_controller: ccGestionFraisBundle:Visiteur:saisie}

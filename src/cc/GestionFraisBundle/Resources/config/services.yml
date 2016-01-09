@@ -5,3 +5,6 @@ services:
 
     pdo :
         class : cc\GestionFraisBundle\BaseDeDonnees\Services\PdoGsb
+    
+    modele :
+        class : cc\GestionFraisBundle\BaseDeDonnees\Services\Modele
