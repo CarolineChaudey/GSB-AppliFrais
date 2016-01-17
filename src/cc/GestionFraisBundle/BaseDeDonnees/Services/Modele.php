@@ -185,9 +185,9 @@ class Modele{
 	public function estPremierFraisMois($idVisiteur,$mois)
 	{
 		$ok = false;
-		$req = "select count(*) as nblignesfrais from fichefrais 
-		where fichefrais.mois = '$mois' and fichefrais.idvisiteur = '$idVisiteur'";
-		$res = PdoGsb::$monPdo->query($req);
+		$req = "select count(*) as nblignesfrais from FicheFrais 
+		where FicheFrais.mois = '$mois' and FicheFrais.idvisiteur = '$idVisiteur'";
+		$res = Modele::$monPdo->query($req);
 		$laLigne = $res->fetch();
 		if($laLigne['nblignesfrais'] == 0){
 			$ok = true;
