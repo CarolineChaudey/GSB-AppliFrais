@@ -23,9 +23,9 @@ namespace cc\GestionFraisBundle\BaseDeDonnees\Services;
 
 class Modele{   		
       	private static $serveur='mysql:host=localhost';
-      	private static $bdd='dbname=AppliFrais';   		
+      	private static $bdd='dbname=GestionFrais';   		
       	private static $user='root' ;    		
-      	private static $mdp='mysql' ;	
+      	private static $mdp='BaseDePatate' ;	
 		private static $monPdo;
 		private static $monPdoGsb=null;
 /**
