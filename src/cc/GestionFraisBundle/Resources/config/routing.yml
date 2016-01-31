@@ -1,6 +1,3 @@
-cc_gestion_frais_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: ccGestionFraisBundle:Default:index }
 
 connexion:
     path:    /

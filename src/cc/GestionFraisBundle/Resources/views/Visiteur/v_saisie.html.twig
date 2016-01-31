@@ -3,5 +3,35 @@
 {% extends "ccGestionFraisBundle:Visiteur:v_sommaire.html.twig" %}
 
 {% block contenu %}
-    Test de saisie du mois : {{ mois }}
+    <h3>Renseigner ma fiche du mois {{ mois }}</h3>
+    
+    {% block fraisforfait %}
+        <div class="mainpage">
+            <h4>Eléments forfaitisés :</h4>
+            <form>
+                <table>
+                    <tr>
+                        <td><label>Forfait étape</label></td>
+                        <td><input></input></td>
+                    </tr>
+                    <tr>
+                        <td><label>Frais kilométriques</label></td>
+                        <td><input></input></td>
+                    </tr>
+                    <tr>
+                        <td><label>Nuité hôtel</label></td>
+                        <td><input></input></td>
+                    </tr>
+                    <tr>
+                        <td><label>Repas restaurant</label></td>
+                        <td><input></input></td>
+                    </tr>
+                </table>
+            </form>
+        </div
+    {% endblock %}
+    
+    {% block fraishorsforfait %}
+    {% endblock %}
+    
 {% endblock %}

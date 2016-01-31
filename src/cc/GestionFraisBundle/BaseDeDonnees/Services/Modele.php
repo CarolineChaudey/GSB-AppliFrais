@@ -137,7 +137,7 @@ class Modele{
 */
 	public function getLesIdFrais(){
 		$req = "select fraisforfait.id as idfrais from fraisforfait order by fraisforfait.id";
-		$res = PdoGsb::$monPdo->query($req);
+		$res = Modele::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		return $lesLignes;
 	}
@@ -202,7 +202,7 @@ class Modele{
 */	
 	public function dernierMoisSaisi($idVisiteur){
 		$req = "select max(mois) as dernierMois from fichefrais where fichefrais.idvisiteur = '$idVisiteur'";
-		$res = PdoGsb::$monPdo->query($req);
+		$res = Modele::$monPdo->query($req);
 		$laLigne = $res->fetch();
 		$dernierMois = $laLigne['dernierMois'];
 		return $dernierMois;
@@ -225,13 +225,13 @@ class Modele{
 		}
 		$req = "insert into fichefrais(idvisiteur,mois,nbJustificatifs,montantValide,dateModif,idEtat) 
 		values('$idVisiteur','$mois',0,0,now(),'CR')";
-		PdoGsb::$monPdo->exec($req);
+		Modele::$monPdo->exec($req);
 		$lesIdFrais = $this->getLesIdFrais();
 		foreach($lesIdFrais as $uneLigneIdFrais){
 			$unIdFrais = $uneLigneIdFrais['idfrais'];
 			$req = "insert into lignefraisforfait(idvisiteur,mois,idFraisForfait,quantite) 
 			values('$idVisiteur','$mois','$unIdFrais',0)";
-			PdoGsb::$monPdo->exec($req);
+			Modele::$monPdo->exec($req);
 		 }
 	}
 /**
@@ -295,7 +295,7 @@ class Modele{
 		$req = "select ficheFrais.idEtat as idEtat, ficheFrais.dateModif as dateModif, ficheFrais.nbJustificatifs as nbJustificatifs, 
 			ficheFrais.montantValide as montantValide, etat.libelle as libEtat from  fichefrais inner join Etat on ficheFrais.idEtat = Etat.id 
 			where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
-		$res = PdoGsb::$monPdo->query($req);
+		$res = Modele::$monPdo->query($req);
 		$laLigne = $res->fetch();
 		return $laLigne;
 	}

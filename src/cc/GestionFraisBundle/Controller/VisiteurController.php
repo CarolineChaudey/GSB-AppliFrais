@@ -16,23 +16,23 @@ class VisiteurController extends Controller
     }
     
     public function saisieAction(Request $request){
+        
+        
+        
         $modele = $this->container->get('modele');
         // à développer
         $mois = sprintf("%04d%02d", date("Y"), date("m"));
         $nouvMois = $modele->estPremierFraisMois($request->getSession()->get("user")->getId(), $mois);
+        
         if($nouvMois === true){
-            $fiche = new Fichefrais();
-            $fiche->setMois($mois);
-            $fiche->setNbjustificatifs(0);
-            $fiche->setMontantvalide('0');
-            $fiche->setDatemodif(new \DateTime);
-            $fiche->setIdetat($this->getDoctrine()->getManager()->getRepository('ccGestionFraisBundle:Etat')->findOneById('CR'));
-            $fiche->setIdvisiteur($request->getSession()->get("user"));
+            $modele->creeNouvellesLignesFrais($request->getSession()->get("user")->getId(),$mois);
         }
-        else{
-           
-        }
+        
+        $mois = $modele->dernierMoisSaisi($request->getSession()->get("user")->getId());
+        $fiche = $modele->getLesInfosFicheFrais($request->getSession()->get("user")->getId(),$mois);
+        
         return $this->render('ccGestionFraisBundle:Visiteur:v_saisie.html.twig', array("user" => $request->getSession()->get("user"),
+                                                                                        "fiche" => $fiche,
                                                                                         "mois" => $mois));
     }
 }
