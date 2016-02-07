@@ -125,8 +125,8 @@ class Modele{
 		lignefraisforfait.quantite as quantite from lignefraisforfait inner join fraisforfait 
 		on fraisforfait.id = lignefraisforfait.idfraisforfait
 		where lignefraisforfait.idvisiteur ='$idVisiteur' and lignefraisforfait.mois='$mois' 
-		order by lignefraisforfait.idfraisforfait";	
-		$res = PdoGsb::$monPdo->query($req);
+		order by lignefraisforfait.idfraisforfait";
+		$res = Modele::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		return $lesLignes; 
 	}
@@ -159,7 +159,7 @@ class Modele{
 			$req = "update lignefraisforfait set lignefraisforfait.quantite = $qte
 			where lignefraisforfait.idvisiteur = '$idVisiteur' and lignefraisforfait.mois = '$mois'
 			and lignefraisforfait.idfraisforfait = '$unIdFrais'";
-			PdoGsb::$monPdo->exec($req);
+			Modele::$monPdo->exec($req);
 		}
 		
 	}
@@ -310,7 +310,7 @@ class Modele{
 	public function majEtatFicheFrais($idVisiteur,$mois,$etat){
 		$req = "update ficheFrais set idEtat = '$etat', dateModif = now() 
 		where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
-		PdoGsb::$monPdo->exec($req);
+		Modele::$monPdo->exec($req);
 	}
 }
 ?>

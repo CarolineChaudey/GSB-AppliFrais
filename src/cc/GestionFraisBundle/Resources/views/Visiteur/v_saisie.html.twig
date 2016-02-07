@@ -6,29 +6,53 @@
     <h3>Renseigner ma fiche du mois {{ mois }}</h3>
     
     {% block fraisforfait %}
-        <div class="mainpage">
-            <h4>Eléments forfaitisés :</h4>
-            <form>
-                <table>
-                    <tr>
-                        <td><label>Forfait étape</label></td>
-                        <td><input></input></td>
-                    </tr>
-                    <tr>
-                        <td><label>Frais kilométriques</label></td>
-                        <td><input></input></td>
-                    </tr>
-                    <tr>
-                        <td><label>Nuité hôtel</label></td>
-                        <td><input></input></td>
-                    </tr>
-                    <tr>
-                        <td><label>Repas restaurant</label></td>
-                        <td><input></input></td>
-                    </tr>
-                </table>
-            </form>
-        </div
+       
+        <h4>Eléments forfaitisés :</h4>
+        {# {{form(formForfait)}} #}
+        {{ form_start(formForfait) }}
+        <table>
+            <tr>
+                <td>
+                    {{ form_label(formForfait.etape) }}
+                 </td>
+                 <td>
+                    {{ form_widget(formForfait.etape) }}
+                 </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_label(formForfait.km) }}
+                </td>
+                <td>
+                    {{ form_widget(formForfait.km) }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_label(formForfait.hotel) }}
+                </td>
+                <td>
+                    {{ form_widget(formForfait.hotel) }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_label(formForfait.resto) }}
+                </td>
+                <td>
+                    {{ form_widget(formForfait.resto) }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ form_widget(formForfait.Valider) }}
+                </td>
+                <td>
+                    {{ form_widget(formForfait.Annuler) }}
+                </td>
+            </tr>
+        </table>
+        {{ form_end(formForfait) }}
     {% endblock %}
     
     {% block fraishorsforfait %}
