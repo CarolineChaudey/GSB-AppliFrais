@@ -10,7 +10,7 @@
         <h4>Eléments forfaitisés :</h4>
         {# {{form(formForfait)}} #}
         {{ form_start(formForfait) }}
-        <table>
+        <table id="fhfacuels">
             <tr>
                 <td>
                     {{ form_label(formForfait.etape) }}
@@ -56,6 +56,22 @@
     {% endblock %}
     
     {% block fraishorsforfait %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Libelle</th>
+                <th>Montant</th>
+                <th></th>
+            </tr>
+            {% for fhfactuel in fhfactuels %}
+                <tr>
+                    <td>{{ fhfactuel.date }}</td>
+                    <td>{{ fhfactuel.libelle }}</td>
+                    <td>{{ fhfactuel.montant }}</td>
+                    <td><a>Supprimer ce frais</a></td>
+                </tr>
+            {% endfor %}
+        </table>
     {% endblock %}
     
 {% endblock %}

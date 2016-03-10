@@ -90,15 +90,22 @@ class Modele{
  * @return tous les champs des lignes de frais hors forfait sous la forme d'un tableau associatif 
 */
 	public function getLesFraisHorsForfait($idVisiteur,$mois){
-	    $req = "select * from lignefraishorsforfait where lignefraishorsforfait.idvisiteur ='$idVisiteur' 
-		and lignefraishorsforfait.mois = '$mois' ";	
-		$res = PdoGsb::$monPdo->query($req);
+	    $req = "select * from LigneFraisHorsForfait where LigneFraisHorsForfait.idvisiteur ='$idVisiteur' 
+		and LigneFraisHorsForfait.mois = '$mois' ";	
+		$res = Modele::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		$nbLignes = count($lesLignes);
+                /*
 		for ($i=0; $i<$nbLignes; $i++){
-			$date = $lesLignes[$i]['date'];
-			$lesLignes[$i]['date'] =  dateAnglaisVersFrancais($date);
+                    
+                        
+			list($annee,$mois,$jour) = explode("-",$date) ;
+                        $dateFR = sprintf("%02d/%02S/%04d",$jour,$mois,$annee) ;
+                        
+                        $lesLignes[$i]['date'] = $dateFR ;
+//			$lesLignes[$i]['date'] =  dateAnglaisVersFrancais($date);
 		}
+                */
 		return $lesLignes; 
 	}
 /**
@@ -158,9 +165,9 @@ class Modele{
 		$lesCles = array_keys($lesFrais);
 		foreach($lesCles as $unIdFrais){
 			$qte = $lesFrais[$unIdFrais];
-			$req = "update lignefraisforfait set lignefraisforfait.quantite = $qte
-			where lignefraisforfait.idvisiteur = '$idVisiteur' and lignefraisforfait.mois = '$mois'
-			and lignefraisforfait.idfraisforfait = '$unIdFrais'";
+			$req = "update LigneFraisForfait set LigneFraisForfait.quantite = $qte
+			where LigneFraisForfait.idvisiteur = '$idVisiteur' and LigneFraisForfait.mois = '$mois'
+			and LigneFraisForfait.idfraisforfait = '$unIdFrais'";
 			Modele::$monPdo->exec($req);
 		}
 		
@@ -231,7 +238,7 @@ class Modele{
 		$lesIdFrais = $this->getLesIdFrais();
 		foreach($lesIdFrais as $uneLigneIdFrais){
 			$unIdFrais = $uneLigneIdFrais['idfrais'];
-			$req = "insert into lignefraisforfait(idvisiteur,mois,idFraisForfait,quantite) 
+			$req = "insert into LigneFraisForfait(idvisiteur,mois,idFraisForfait,quantite) 
 			values('$idVisiteur','$mois','$unIdFrais',0)";
 			Modele::$monPdo->exec($req);
 		 }
