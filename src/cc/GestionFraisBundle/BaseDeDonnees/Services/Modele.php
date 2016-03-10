@@ -21,11 +21,13 @@ use PDO;
 
 namespace cc\GestionFraisBundle\BaseDeDonnees\Services;
 
+use PDO;
+
 class Modele{   		
       	private static $serveur='mysql:host=localhost';
-      	private static $bdd='dbname=GestionFrais';   		
+      	private static $bdd='dbname=AppliFrais';   		
       	private static $user='root' ;    		
-      	private static $mdp='BaseDePatate' ;	
+      	private static $mdp='mysql' ;	
 		private static $monPdo;
 		private static $monPdoGsb=null;
 /**
@@ -33,7 +35,7 @@ class Modele{
  * pour toutes les méthodes de la classe
  */				
 	public function __construct(){
-    	Modele::$monPdo = new \PDO(Modele::$serveur.';'.Modele::$bdd, Modele::$user, Modele::$mdp); 
+    	Modele::$monPdo = new \PDO(Modele::$serveur.';'.Modele::$bdd, Modele::$user, Modele::$mdp, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)); 
 		Modele::$monPdo->query("SET CHARACTER SET utf8");
             /*
             $p = $this->container->getParameter('database.server');
@@ -107,7 +109,7 @@ class Modele{
  * @return le nombre entier de justificatifs 
 */
 	public function getNbjustificatifs($idVisiteur, $mois){
-		$req = "select fichefrais.nbjustificatifs as nb from  fichefrais where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
+		$req = "select FicheFrais.nbjustificatifs as nb from  FicheFrais where FicheFrais.idvisiteur ='$idVisiteur' and FicheFrais.mois = '$mois'";
 		$res = PdoGsb::$monPdo->query($req);
 		$laLigne = $res->fetch();
 		return $laLigne['nb'];
@@ -121,11 +123,11 @@ class Modele{
  * @return l'id, le libelle et la quantité sous la forme d'un tableau associatif 
 */
 	public function getLesFraisForfait($idVisiteur, $mois){
-		$req = "select fraisforfait.id as idfrais, fraisforfait.libelle as libelle, 
-		lignefraisforfait.quantite as quantite from lignefraisforfait inner join fraisforfait 
-		on fraisforfait.id = lignefraisforfait.idfraisforfait
-		where lignefraisforfait.idvisiteur ='$idVisiteur' and lignefraisforfait.mois='$mois' 
-		order by lignefraisforfait.idfraisforfait";
+		$req = "select FraisForfait.id as idfrais, FraisForfait.libelle as libelle, 
+		LigneFraisForfait.quantite as quantite from LigneFraisForfait inner join FraisForfait 
+		on FraisForfait.id = LigneFraisForfait.idfraisforfait
+		where LigneFraisForfait.idvisiteur ='$idVisiteur' and LigneFraisForfait.mois='$mois' 
+		order by LigneFraisForfait.idfraisforfait";
 		$res = Modele::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		return $lesLignes; 
@@ -136,7 +138,7 @@ class Modele{
  * @return un tableau associatif 
 */
 	public function getLesIdFrais(){
-		$req = "select fraisforfait.id as idfrais from fraisforfait order by fraisforfait.id";
+		$req = "select FraisForfait.id as idfrais from FraisForfait order by FraisForfait.id";
 		$res = Modele::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		return $lesLignes;
@@ -171,8 +173,8 @@ class Modele{
  * @param $mois sous la forme aaaamm
 */
 	public function majNbJustificatifs($idVisiteur, $mois, $nbJustificatifs){
-		$req = "update fichefrais set nbjustificatifs = $nbJustificatifs 
-		where fichefrais.idvisiteur = '$idVisiteur' and fichefrais.mois = '$mois'";
+		$req = "update FicheFrais set nbjustificatifs = $nbJustificatifs 
+		where FicheFrais.idvisiteur = '$idVisiteur' and FicheFrais.mois = '$mois'";
 		PdoGsb::$monPdo->exec($req);	
 	}
 /**
@@ -201,7 +203,7 @@ class Modele{
  * @return le mois sous la forme aaaamm
 */	
 	public function dernierMoisSaisi($idVisiteur){
-		$req = "select max(mois) as dernierMois from fichefrais where fichefrais.idvisiteur = '$idVisiteur'";
+		$req = "select max(mois) as dernierMois from FicheFrais where FicheFrais.idvisiteur = '$idVisiteur'";
 		$res = Modele::$monPdo->query($req);
 		$laLigne = $res->fetch();
 		$dernierMois = $laLigne['dernierMois'];
@@ -223,7 +225,7 @@ class Modele{
 				$this->majEtatFicheFrais($idVisiteur, $dernierMois,'CL');
 				
 		}
-		$req = "insert into fichefrais(idvisiteur,mois,nbJustificatifs,montantValide,dateModif,idEtat) 
+		$req = "insert into FicheFrais(idvisiteur,mois,nbJustificatifs,montantValide,dateModif,idEtat) 
 		values('$idVisiteur','$mois',0,0,now(),'CR')";
 		Modele::$monPdo->exec($req);
 		$lesIdFrais = $this->getLesIdFrais();
@@ -266,8 +268,8 @@ class Modele{
  * @return un tableau associatif de clé un mois -aaaamm- et de valeurs l'année et le mois correspondant 
 */
 	public function getLesMoisDisponibles($idVisiteur){
-		$req = "select fichefrais.mois as mois from  fichefrais where fichefrais.idvisiteur ='$idVisiteur' 
-		order by fichefrais.mois desc ";
+		$req = "select FicheFrais.mois as mois from  FicheFrais where FicheFrais.idvisiteur ='$idVisiteur' 
+		order by FicheFrais.mois desc ";
 		$res = PdoGsb::$monPdo->query($req);
 		$lesMois =array();
 		$laLigne = $res->fetch();
@@ -292,9 +294,9 @@ class Modele{
  * @return un tableau avec des champs de jointure entre une fiche de frais et la ligne d'état 
 */	
 	public function getLesInfosFicheFrais($idVisiteur,$mois){
-		$req = "select ficheFrais.idEtat as idEtat, ficheFrais.dateModif as dateModif, ficheFrais.nbJustificatifs as nbJustificatifs, 
-			ficheFrais.montantValide as montantValide, etat.libelle as libEtat from  fichefrais inner join Etat on ficheFrais.idEtat = Etat.id 
-			where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
+		$req = "select FicheFrais.idEtat as idEtat, FicheFrais.dateModif as dateModif, FicheFrais.nbJustificatifs as nbJustificatifs, 
+			FicheFrais.montantValide as montantValide, Etat.libelle as libEtat from  FicheFrais inner join Etat on FicheFrais.idEtat = Etat.id 
+			where FicheFrais.idvisiteur ='$idVisiteur' and FicheFrais.mois = '$mois'";
 		$res = Modele::$monPdo->query($req);
 		$laLigne = $res->fetch();
 		return $laLigne;
@@ -308,8 +310,8 @@ class Modele{
  */
  
 	public function majEtatFicheFrais($idVisiteur,$mois,$etat){
-		$req = "update ficheFrais set idEtat = '$etat', dateModif = now() 
-		where fichefrais.idvisiteur ='$idVisiteur' and fichefrais.mois = '$mois'";
+		$req = "update FicheFrais set idEtat = '$etat', dateModif = now() 
+		where FicheFrais.idvisiteur ='$idVisiteur' and FicheFrais.mois = '$mois'";
 		Modele::$monPdo->exec($req);
 	}
 }

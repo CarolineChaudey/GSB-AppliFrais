@@ -29,7 +29,7 @@ class VisiteurController extends Controller
         $fraisforfaits = $modele->getLesFraisForfait($request->getSession()->get("user")->getId(), $mois);
         
         $formForfait = $this->createFormBuilder()
-                ->add('etape', 'integer', array('required' => true, 'label' => 'Forfait étape', 'data' => $fraisforfaits[0]['quantite']))
+                ->add('etape', 'integer', array('required' => true, 'label' => 'Forfait étape', 'data' => $fraisforfaits[1]['quantite']))
                 ->add('km', 'integer', array('required' => true, 'label' => 'Frais kilométriques', 'data' => $fraisforfaits[1]['quantite']))
                 ->add('hotel', 'integer', array('required' => true, 'label' => 'Nuité hôtel', 'data' => $fraisforfaits[2]['quantite']))
                 ->add('resto', 'integer', array('required' => true, 'label' => 'Repas restaurant', 'data' => $fraisforfaits[3]['quantite']))
