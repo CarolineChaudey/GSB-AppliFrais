@@ -8,70 +8,26 @@
     {% block fraisforfait %}
        
         <h4>Eléments forfaitisés :</h4>
-        {# {{form(formForfait)}} #}
-        {{ form_start(formForfait) }}
-        <table id="fhfacuels">
-            <tr>
-                <td>
-                    {{ form_label(formForfait.etape) }}
-                 </td>
-                 <td>
-                    {{ form_widget(formForfait.etape) }}
-                 </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ form_label(formForfait.km) }}
-                </td>
-                <td>
-                    {{ form_widget(formForfait.km) }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ form_label(formForfait.hotel) }}
-                </td>
-                <td>
-                    {{ form_widget(formForfait.hotel) }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ form_label(formForfait.resto) }}
-                </td>
-                <td>
-                    {{ form_widget(formForfait.resto) }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    {{ form_widget(formForfait.Valider) }}
-                </td>
-                <td>
-                    {{ form_widget(formForfait.Annuler) }}
-                </td>
-            </tr>
-        </table>
-        {{ form_end(formForfait) }}
-    {% endblock %}
-    
-    {% block fraishorsforfait %}
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Libelle</th>
-                <th>Montant</th>
-                <th></th>
-            </tr>
-            {% for fhfactuel in fhfactuels %}
-                <tr>
-                    <td>{{ fhfactuel.date }}</td>
-                    <td>{{ fhfactuel.libelle }}</td>
-                    <td>{{ fhfactuel.montant }}</td>
-                    <td><a>Supprimer ce frais</a></td>
-                </tr>
-            {% endfor %}
-        </table>
+        
+        <form action="traiterFrais" method="POST">
+            <div id="fraisforfait">
+                <label>Etapes</label>
+                <input type="number" name="nbEtapes" value="{{ fraisforfait.0.quantite }}"/>
+                <br>
+                <label>Kms</label>
+                <input type="number" name="nbKms" value="{{ fraisforfait.1.quantite }}"/>
+                <br>
+                <label>Nuits</label>
+                <input type="number" name="nbNuits" value="{{ fraisforfait.2.quantite }}" />
+                <br>
+                <label>Repas</label>
+                <input type="number" name="nbRepas" value="{{ fraisforfait.3.quantite }}" />
+            </div>
+            <input type="submit" />
+        </form>
+        
+       
+        
     {% endblock %}
     
 {% endblock %}

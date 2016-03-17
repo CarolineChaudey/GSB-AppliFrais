@@ -10,3 +10,7 @@ visiteur:
 saisieFiche:
     path:    /visiteur/saisie
     defaults:  {_controller: ccGestionFraisBundle:Visiteur:saisie}
+    
+traiterFrais:
+    path:   /visiteur/traiterFrais
+    defaults:  {_controller: ccGestionFraisBundle:Visiteur:traiterFrais}

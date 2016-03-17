@@ -3,11 +3,8 @@
 namespace cc\GestionFraisBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Render;
 use Symfony\Component\HttpFoundation\Request;
-use cc\GestionFraisBundle\Entity\Fichefrais;
-use cc\GestionFraisBundle\Entity\Etat;
+use Symfony\Component\HttpFoundation\Response;
 
 class VisiteurController extends Controller
 {
@@ -27,7 +24,7 @@ class VisiteurController extends Controller
         }
         
         $fraisforfaits = $modele->getLesFraisForfait($request->getSession()->get("user")->getId(), $mois);
-        
+        /*
         $formForfait = $this->createFormBuilder()
                 ->add('etape', 'integer', array('required' => true, 'label' => 'Forfait étape', 'data' => $fraisforfaits[0]['quantite']))
                 ->add('km', 'integer', array('required' => true, 'label' => 'Frais kilométriques', 'data' => $fraisforfaits[1]['quantite']))
@@ -46,7 +43,7 @@ class VisiteurController extends Controller
             );
             $modele->majFraisForfait($request->getSession()->get("user")->getId(), $mois, $result);
         }
-        
+        */
         // récupérer tous les frais hors forfait
         
         $fhf = $modele->getLesFraisHorsForfait($request->getSession()->get('user')->getId(), $mois);
@@ -60,6 +57,23 @@ class VisiteurController extends Controller
                                                                                         "fiche" => $fiche,
                                                                                         "mois" => $mois,
                                                                                         "fhfactuels" => $fhf,
-                                                                                        "formForfait" => $formForfait->createView()));
+                                                                                        "fraisforfait" => $fraisforfaits/*,
+                                                                                        "formForfait" => $formForfait->createView()*/));
+    }
+    
+    public function traiterFraisAction(Request $request){
+        
+        $result = array(
+                'ETP' => $_POST['nbEtapes'],
+                'KM' => $_POST['nbKms'],
+                'NUI' => $_POST['nbNuits'],
+                'REP' => $_POST['nbRepas']
+            );
+
+        $mois = sprintf("%04d%02d", date("Y"), date("m"));
+        $modele = $this->container->get('modele');
+        $modele->majFraisForfait($request->getSession()->get("user")->getId(), $mois, $result);
+        
+        return $this->redirectToRoute('saisieFiche');
     }
 }
