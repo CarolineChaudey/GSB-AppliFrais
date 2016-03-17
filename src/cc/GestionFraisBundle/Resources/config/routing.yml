@@ -14,3 +14,11 @@ saisieFiche:
 traiterFrais:
     path:   /visiteur/traiterFrais
     defaults:  {_controller: ccGestionFraisBundle:Visiteur:traiterFrais}
+    
+supprFrais:
+    path:   /visiteur/supprFrais
+    defaults:  {_controller: ccGestionFraisBundle:Visiteur:supprimerFrais}
+    
+creerFrais:
+    path:   /visiteur/creerFrais
+    defaults:  {_controller: ccGestionFraisBundle:Visiteur:creerFrais}

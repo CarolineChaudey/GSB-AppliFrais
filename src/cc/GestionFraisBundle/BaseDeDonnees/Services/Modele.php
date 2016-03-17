@@ -253,11 +253,11 @@ class Modele{
  * @param $date : la date du frais au format français jj//mm/aaaa
  * @param $montant : le montant
 */
-	public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
-		$dateFr = dateFrancaisVersAnglais($date);
-		$req = "insert into lignefraishorsforfait 
-		values('','$idVisiteur','$mois','$libelle','$dateFr','$montant')";
-		PdoGsb::$monPdo->exec($req);
+	public function creerNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
+		//$dateFr = dateFrancaisVersAnglais($date);
+		$req = "insert into LigneFraisHorsForfait 
+		values('','$idVisiteur','$mois','$libelle','$date','$montant')";
+		Modele::$monPdo->exec($req);
 	}
 /**
  * Supprime le frais hors forfait dont l'id est passé en argument
@@ -265,9 +265,18 @@ class Modele{
  * @param $idFrais 
 */
 	public function supprimerFraisHorsForfait($idFrais){
-		$req = "delete from lignefraishorsforfait where lignefraishorsforfait.id =$idFrais ";
-		PdoGsb::$monPdo->exec($req);
+		$req = "delete from LigneFraisHorsForfait where LigneFraisHorsForfait.id =$idFrais ";
+		Modele::$monPdo->exec($req);
 	}
+        
+        public function majFraisHorsForfait($liste){
+            $req = "";
+            foreach ($liste as $frais){
+                $req = "update LigneFraisHorsForfait set date=".$frais['date'].", libelle=".$frais['libelle'].
+                        ", montant=".$frais['montant']." where id=".$frais[id];
+                Modele::$monPdo->exec($req);
+            }
+        }
 /**
  * Retourne les mois pour lesquel un visiteur a une fiche de frais
  
