@@ -1,0 +1,49 @@
+{# empty Twig template #}
+
+{% extends "ccGestionFraisBundle:Visiteur:v_sommaire.html.twig" %}
+
+{% block contenu %}
+    
+    <h3>Fiche du {{ mois }} :</h3>
+    
+    <h4>Frais forfait :</h4>
+    <table border="solid">
+        <tr>
+            <th>Frais forfaitisé</th>
+            <th>Quantité</th>
+            <th>Situation</th>
+        </tr>
+        {% for ff in ffs %}
+            <tr>
+                <td>{{ ff.libelle }}</td>
+                <td>{{ ff.quantite }}</td>
+                <td>X</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <h4>Frais hors forfait :</h4>
+    <table border="solid">
+        <tr>
+            <th>Frais hors forfait</th>
+            <th>Date</th>
+            <th>Montant</th>
+            <th>Situation</th>
+        </tr>
+        {% for fhf in fhfs %}
+        <tr>
+            <td>{{ fhf.libelle }}</td>
+            <td>{{ fhf.date }}</td>
+            <td>{{ fhf.montant }}</td>
+            <td>X</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <h4>Total des remboursements :</h4>
+    <div>
+        Justificatifs validés : {{ fiche.nbJustificatifs }} <br>
+        Montant total validé : {{ fiche.montantValide }}
+    </div>
+    
+{% endblock %}

@@ -117,7 +117,7 @@ class Modele{
 */
 	public function getNbjustificatifs($idVisiteur, $mois){
 		$req = "select FicheFrais.nbjustificatifs as nb from  FicheFrais where FicheFrais.idvisiteur ='$idVisiteur' and FicheFrais.mois = '$mois'";
-		$res = PdoGsb::$monPdo->query($req);
+		$res = Modele::$monPdo->query($req);
 		$laLigne = $res->fetch();
 		return $laLigne['nb'];
 	}
@@ -286,7 +286,7 @@ class Modele{
 	public function getLesMoisDisponibles($idVisiteur){
 		$req = "select FicheFrais.mois as mois from  FicheFrais where FicheFrais.idvisiteur ='$idVisiteur' 
 		order by FicheFrais.mois desc ";
-		$res = PdoGsb::$monPdo->query($req);
+		$res = Modele::$monPdo->query($req);
 		$lesMois =array();
 		$laLigne = $res->fetch();
 		while($laLigne != null)	{
@@ -313,6 +313,7 @@ class Modele{
 		$req = "select FicheFrais.idEtat as idEtat, FicheFrais.dateModif as dateModif, FicheFrais.nbJustificatifs as nbJustificatifs, 
 			FicheFrais.montantValide as montantValide, Etat.libelle as libEtat from  FicheFrais inner join Etat on FicheFrais.idEtat = Etat.id 
 			where FicheFrais.idvisiteur ='$idVisiteur' and FicheFrais.mois = '$mois'";
+                
 		$res = Modele::$monPdo->query($req);
 		$laLigne = $res->fetch();
 		return $laLigne;

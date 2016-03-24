@@ -22,3 +22,13 @@ supprFrais:
 creerFrais:
     path:   /visiteur/creerFrais
     defaults:  {_controller: ccGestionFraisBundle:Visiteur:creerFrais}
+    
+consulterFrais:
+    path:    /visiteur/voirFrais
+    defaults: {_controller: ccGestionFraisBundle:Visiteur:consulterFrais}
+    
+consulterUnFrais:
+    path:    /visiteur/voirFrais/{mois}
+    defaults:  {_controller: ccGestionFraisBundle:Visiteur:consulterUnFrais}
+    requirements:
+        mois : \d{6}

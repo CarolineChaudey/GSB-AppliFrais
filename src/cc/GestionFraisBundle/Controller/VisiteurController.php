@@ -28,8 +28,6 @@ class VisiteurController extends Controller
         
         $fhf = $modele->getLesFraisHorsForfait($request->getSession()->get('user')->getId(), $mois);
         
-        ////////////////////////////////////////////////////////////////////////
-        
         $mois = $modele->dernierMoisSaisi($request->getSession()->get("user")->getId());
         $fiche = $modele->getLesInfosFicheFrais($request->getSession()->get("user")->getId(),$mois);
         
@@ -71,5 +69,32 @@ class VisiteurController extends Controller
                 $mois,$_POST['libelle'],$_POST['date'],$_POST['montant']);
         
         return $this->redirectToRoute('saisieFiche');
+    }
+    
+    public function consulterFraisAction(Request $request){
+        $modele = $this->container->get('modele');
+        $lesMoisDispo = $modele->getLesMoisDisponibles($request->getSession()->get("user")->getId());
+        $visiteur = $request->getSession()->get("user");
+        
+        return $this->render('ccGestionFraisBundle:Visiteur:v_consultation_fiches.html.twig', array(
+            "user" => $visiteur,
+            "listeMois" => $lesMoisDispo
+        ));
+    }
+    
+    public function consulterUnFraisAction(Request $request, $mois){
+        $user = $request->getSession()->get("user");
+        $modele = $this->container->get('modele');
+        $ffs = $modele->getLesFraisForfait($user->getId(), $mois);
+        $fhfs = $modele->getLesFraisHorsForfait($user->getId(), $mois);
+        $fiche = $modele->getLesInfosFicheFrais($request->getSession()->get("user")->getId(),$mois);
+        
+        return $this->render('ccGestionFraisBundle:Visiteur:v_consultation_fiche.html.twig',array(
+            'mois' => $mois,
+            'user' => $user,
+            'ffs' => $ffs,
+            'fhfs' => $fhfs,
+            'fiche' => $fiche
+        ));
     }
 }

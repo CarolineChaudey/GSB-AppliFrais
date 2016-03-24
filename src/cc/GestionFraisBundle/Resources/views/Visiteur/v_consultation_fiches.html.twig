@@ -1,0 +1,18 @@
+{# empty Twig template #}
+
+{% extends "ccGestionFraisBundle:Visiteur:v_sommaire.html.twig" %}
+
+{% block contenu %}
+    
+    <h3>Vous avez des fiches pour les mois suivants :</h3>
+    
+    <ul>
+    {% for unMois in listeMois %}
+        <li>
+            <a href="{{ path('consulterUnFrais', {'mois' : unMois.mois}) }}" >{{ unMois.numMois ~ '-' ~ unMois.numAnnee }}</a> <br>
+        </li>
+    {% endfor %}
+    </ul>
+    
+{% endblock %}
+
