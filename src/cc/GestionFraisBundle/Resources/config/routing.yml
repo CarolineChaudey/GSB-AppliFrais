@@ -3,6 +3,11 @@ connexion:
     path:    /
     defaults:  {_controller: ccGestionFraisBundle:Default:index}
     
+deconnexion:
+    path:    /deco
+    defaults:  {_controller: ccGestionFraisBundle:Default:deconnexion}
+   
+    
 visiteur:
     path:    /visiteur
     defaults:  {_controller: ccGestionFraisBundle:Visiteur:index}
@@ -32,3 +37,8 @@ consulterUnFrais:
     defaults:  {_controller: ccGestionFraisBundle:Visiteur:consulterUnFrais}
     requirements:
         mois : \d{6}
+
+
+comptable:
+    path:    /comptable
+    defaults:  {_controller: ccGestionFraisBundle:Comptable:index}

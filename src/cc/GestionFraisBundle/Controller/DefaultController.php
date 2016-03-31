@@ -13,7 +13,6 @@ class DefaultController extends Controller
     {
         
         $request->getSession()->set('user', null);
-        $request->getSession()->set('profil', null);
         
         $form = $this->createFormBuilder()
                 ->add('login', 'text')
@@ -26,32 +25,28 @@ class DefaultController extends Controller
         
         $form->handleRequest($request);
         if($form->isValid()){
+            $modele = $this->container->get('modele');
             $login = $form['login']->getData();
             $mdp = $form['mdp']->getData();
             $profil = $form['profil']->getData();
-            
             $user = null;
+            
             if($profil == "visiteur"){
-                $repo = $this->getDoctrine()->getManager()->getRepository('ccGestionFraisBundle:Visiteur');
-                $visiteur = $repo->trouverVisiteur($login, $mdp);
+                $visiteur = $modele->getInfosVisiteur($login, $mdp);
                 $user = $visiteur;
             }
             else if($profil == "comptable"){
-                $modele = $this->container->get('modele');
                 $comptable = $modele->getInfosComptable($login, $mdp);
-                $user = $comptable;    
+                $user = $comptable;
             }
             
-            if($user !== null){
+            if($user !== FALSE){
                 $request->getSession()->set('user', $user);
-                $request->getSession()->set('profil', $profil);
-                if($request->getSession()->get('profil') === 'visiteur'){
-                    //$this->addFlash('fail', 'test');
-                    //return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
+                if($profil === 'visiteur'){
                     return $this->redirectToRoute('visiteur');
                 }
-                else if($request->getSession()->get('profil') === 'comptable'){
-                    return $this->render('ccGestionFraisBundle:Default:test.html.twig', array('user' => $user));
+                else if($profil === 'comptable'){
+                    return $this->redirectToRoute('comptable');
                 }
             }
             else{
@@ -62,13 +57,10 @@ class DefaultController extends Controller
         
         return $this->render('ccGestionFraisBundle:Default:v_connexion.html.twig', array('form'=>$form->createView()));
     }
-    
-    /*
-    public function seDeconnecter(Request $request){
-        $request->getSession()->set('user', null);
-        $request->getSession()->set('profil', null);
-        
-        return 
+ 
+    public function deconnexionAction(Request $request){
+        $request->getSession()->clear();
+        return $this->redirectToRoute('connexion');
     }
-    */
+    
 }
