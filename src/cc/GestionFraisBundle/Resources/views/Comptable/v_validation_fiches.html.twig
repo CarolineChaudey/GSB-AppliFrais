@@ -1,0 +1,25 @@
+
+{% extends "ccGestionFraisBundle:Visiteur:v_sommaire.html.twig" %}
+
+{% block contenu %}
+    
+    <h3>Saisissez le visiteur et le mois pour lequel vous voulez consulter une fiche de frais</h3>
+    <p>Le mois est à entrer au format année-mois (exemple : 2016-02)</p>
+    
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        
+        {{ form_errors(form.visiteur) }}
+        {{ form_label(form.visiteur, "Visiteur") }}
+        {{ form_widget(form.visiteur) }}
+        
+        {{ form_errors(form.mois) }}
+        {{ form_label(form.mois, "Mois") }}
+        {{ form_widget(form.mois) }}
+        
+        {{ form_rest(form) }}
+    {{ form_end(form) }}
+    
+    {{ lesVisiteurs.1.nom }}
+    
+{% endblock %}

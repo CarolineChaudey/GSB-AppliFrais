@@ -42,3 +42,7 @@ consulterUnFrais:
 comptable:
     path:    /comptable
     defaults:  {_controller: ccGestionFraisBundle:Comptable:index}
+    
+validerFiches:
+    path:    /comptable/FichesAValider
+    defaults:  {_controller:  ccGestionFraisBundle:Comptable:validerFiches}

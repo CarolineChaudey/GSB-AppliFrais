@@ -342,12 +342,12 @@ class Modele{
 		Modele::$monPdo->exec($req);
 	}
         
-//        public function getLibelleEtatFiche($idFiche){
-//            $req="select libelle "
-//                    . "from Etat "
-//                    . "inner join FicheFrais on FicheFrais.idEtat = Etat.id"
-//                    . "where FicheFrais.id = '$idFiche'";
-//            Modele::$monPdo->exec($req);
-//        }
+       public function getListeVisiteurs(){
+            $req = "select id, nom, prenom from Visiteur";
+            $res = Modele::$monPdo->query($req);
+            $lesLignes = $res->fetchAll();
+	    return $lesLignes;
+       }
+ 
 }
 ?>
