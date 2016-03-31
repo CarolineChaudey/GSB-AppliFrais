@@ -37,8 +37,8 @@ class DefaultController extends Controller
                 $user = $visiteur;
             }
             else if($profil == "comptable"){
-                $repo = $this->getDoctrine()->getManager()->getRepository('ccGestionFraisBundle:Comptable');
-                $comptable = $repo->trouverComptable($login, $mdp);
+                $modele = $this->container->get('modele');
+                $comptable = $modele->getInfosComptable($login, $mdp);
                 $user = $comptable;    
             }
             

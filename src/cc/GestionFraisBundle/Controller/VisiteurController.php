@@ -88,7 +88,7 @@ class VisiteurController extends Controller
         $ffs = $modele->getLesFraisForfait($user->getId(), $mois);
         $fhfs = $modele->getLesFraisHorsForfait($user->getId(), $mois);
         $fiche = $modele->getLesInfosFicheFrais($request->getSession()->get("user")->getId(),$mois);
-        
+                
         return $this->render('ccGestionFraisBundle:Visiteur:v_consultation_fiche.html.twig',array(
             'mois' => $mois,
             'user' => $user,

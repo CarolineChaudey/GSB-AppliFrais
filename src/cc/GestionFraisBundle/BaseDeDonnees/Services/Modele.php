@@ -78,6 +78,16 @@ class Modele{
 		return $ligne;
 	}
 
+        
+        public function getInfosComptable($login, $mdp){
+            $req = "select Comptable.id as id, Comptable.nom as nom, Comptable.prenom as prenom "
+                    . "from Comptable "
+                    . "where Comptable.login='$login' and Comptable.mdp='$mdp'";
+            $rs = Modele::$monPdo->query($req);
+            $ligne = $rs->fetch();
+            return $ligne;
+        }
+        
 /**
  * Retourne sous forme d'un tableau associatif toutes les lignes de frais hors forfait
  * concernées par les deux arguments
@@ -331,5 +341,13 @@ class Modele{
 		where FicheFrais.idvisiteur ='$idVisiteur' and FicheFrais.mois = '$mois'";
 		Modele::$monPdo->exec($req);
 	}
+        
+//        public function getLibelleEtatFiche($idFiche){
+//            $req="select libelle "
+//                    . "from Etat "
+//                    . "inner join FicheFrais on FicheFrais.idEtat = Etat.id"
+//                    . "where FicheFrais.id = '$idFiche'";
+//            Modele::$monPdo->exec($req);
+//        }
 }
 ?>
