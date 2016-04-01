@@ -280,4 +280,9 @@ class Visiteur
     {
         return $this->dateembauche;
     }
+    
+    public function __toString(){
+        $libelle = $this->getId()." ".$this->getNom()." ".$this->getPrenom();
+        return (string) $libelle;
+    }
 }

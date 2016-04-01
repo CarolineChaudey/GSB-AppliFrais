@@ -1,0 +1,67 @@
+
+{% extends "ccGestionFraisBundle:Comptable:v_sommaire.html.twig" %}
+
+{% block contenu %}
+    <h3>Fiche de {{ visiteur.nom }} {{ visiteur.prenom }} du {{ mois }} :</h3>
+    
+      {# 
+        <h4>Eléments forfaitisés :</h4>
+        
+        <form action="traiterFrais" method="POST">
+             
+                <label>Etapes</label>
+                <input type="number" name="nbEtapes" value="{{ fraisforfait.0.quantite }}"/>
+                <br>
+                <label>Kms</label>
+                <input type="number" name="nbKms" value="{{ fraisforfait.1.quantite }}"/>
+                <br>
+                <label>Nuits</label>
+                <input type="number" name="nbNuits" value="{{ fraisforfait.2.quantite }}" />
+                <br>
+                <label>Repas</label>
+                <input type="number" name="nbRepas" value="{{ fraisforfait.3.quantite }}" />
+                <br><br>
+                <input type="submit" />
+                <input type="reset" value="Annuler" />
+        </form>
+            
+        <div id="fraishorsforfait">
+            <table border="solid" style="width: 80%;">
+                <tr>
+                    <th>Date</th>
+                    <th>Libelle</th>
+                    <th>Quantité</th>
+                    <th>Action</th>
+                </tr>
+                <br>
+                {% for unfhf in fhfactuels %}
+                <form action="supprFrais" method="POST">
+                    <tr>
+                        <input type="hidden" name="id" value="{{ unfhf.id }}" />
+                        <td> {{ unfhf.date }} </td>
+                        <td> {{ unfhf.libelle }} </td>
+                        <td> {{ unfhf.montant }} </td>
+                        <td> <button>Supprimer</button> </td>
+                    </tr>
+                </form>     
+                {% endfor %}
+                <form action="creerFrais" method="POST">
+                    <tr>
+                        <td> <input type="date" name="date" /> </td>
+                        <td> <input type="text" name="libelle" /> </td>
+                        <td> <input type="number" name="montant" step="0.01" /> </td>
+                        <td> <input type="submit" value="Créer" /> </td>
+                    </tr>
+                </form>
+            </table>
+           
+            <br><br>
+            <div>
+                Justificatifs validés : {{ fiche.nbJustificatifs }} <br>
+                Montant total validé : {{ fiche.montantValide }}
+            </div>
+        </div>
+                <br><br>
+        
+    #}
+{% endblock %}

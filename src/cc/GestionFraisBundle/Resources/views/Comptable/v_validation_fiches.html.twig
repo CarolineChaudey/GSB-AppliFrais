@@ -20,6 +20,11 @@
         {{ form_rest(form) }}
     {{ form_end(form) }}
     
-    {{ lesVisiteurs.1.nom }}
+    {#
+    {% for unVisiteur in lesVisiteurs %}
+        {{unVisiteur.id}}
+        <br>
+    {% endfor %}
+    #}
     
 {% endblock %}
