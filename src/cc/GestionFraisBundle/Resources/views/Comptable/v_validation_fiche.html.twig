@@ -4,6 +4,10 @@
 {% block contenu %}
     <h3>Fiche de {{ visiteur.nom }} {{ visiteur.prenom }} du {{ mois }} :</h3>
     
+    {% if fiche == false %}
+        <b>Ce visiteur n'a pas de fiche disponible pour ce mois-ci.</b>
+    {% else %}
+    {% endif %}
       {# 
         <h4>Eléments forfaitisés :</h4>
         
