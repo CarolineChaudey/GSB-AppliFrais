@@ -4,11 +4,12 @@ namespace cc\GestionFraisBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Fichefrais
  *
  * @ORM\Table(name="FicheFrais", indexes={@ORM\Index(name="idEtat", columns={"idEtat"}), @ORM\Index(name="IDX_1C4987DC1D06ADE3", columns={"idVisiteur"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="cc\GestionFraisBundle\Entity\FicheFraisRepository")
  */
 class Fichefrais
 {

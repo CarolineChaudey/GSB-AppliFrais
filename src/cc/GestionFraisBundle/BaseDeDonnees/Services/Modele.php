@@ -192,7 +192,7 @@ class Modele{
 	public function majNbJustificatifs($idVisiteur, $mois, $nbJustificatifs){
 		$req = "update FicheFrais set nbjustificatifs = $nbJustificatifs 
 		where FicheFrais.idvisiteur = '$idVisiteur' and FicheFrais.mois = '$mois'";
-		PdoGsb::$monPdo->exec($req);	
+		Modele::$monPdo->exec($req);	
 	}
 /**
  * Teste si un visiteur possède une fiche de frais pour le mois passé en argument
@@ -275,7 +275,7 @@ class Modele{
  * @param $idFrais 
 */
 	public function supprimerFraisHorsForfait($idFrais){
-		$req = "delete from LigneFraisHorsForfait where LigneFraisHorsForfait.id =$idFrais ";
+		$req = "update LigneFraisHorsForfait set libelle = concat('REFUSE',libelle) where LigneFraisHorsForfait.id =$idFrais ";
 		Modele::$monPdo->exec($req);
 	}
         
@@ -320,7 +320,7 @@ class Modele{
  * @return un tableau avec des champs de jointure entre une fiche de frais et la ligne d'état 
 */	
 	public function getLesInfosFicheFrais($idVisiteur,$mois){
-		$req = "select FicheFrais.idEtat as idEtat, FicheFrais.dateModif as dateModif, FicheFrais.nbJustificatifs as nbJustificatifs, 
+		$req = "select FicheFrais.idVisiteur as idVis , FicheFrais.mois as mois, FicheFrais.idEtat as idEtat, FicheFrais.dateModif as dateModif, FicheFrais.nbJustificatifs as nbJustificatifs, 
 			FicheFrais.montantValide as montantValide, Etat.libelle as libEtat from  FicheFrais inner join Etat on FicheFrais.idEtat = Etat.id 
 			where FicheFrais.idvisiteur ='$idVisiteur' and FicheFrais.mois = '$mois'";
                 
@@ -348,6 +348,27 @@ class Modele{
             $lesLignes = $res->fetchAll();
 	    return $lesLignes;
        }
- 
+       
+       public function getFraisHorsForfait($idFraisH){
+           $req = "select * from LigneFraisHorsForfait where id='$idFraisH'";
+           $res = Modele::$monPdo->query($req);
+           $laLigne = $res->fetch();
+	   return $laLigne;
+       }
+       
+       
+       public function majMontantValide($idVisiteur, $mois, $montantValide){
+           $req = "update FicheFrais set montantValide = $montantValide 
+		where FicheFrais.idvisiteur = '$idVisiteur' and FicheFrais.mois = '$mois'";
+	    Modele::$monPdo->exec($req);
+       }
+       
+       public function getFichesValides(){
+           $req = "select * from FicheFrais where idEtat='VA'";
+           $res = Modele::$monPdo->query($req);
+           $lesLignes = $res->fetchAll();
+           return $lesLignes;
+       }
+       
 }
 ?>

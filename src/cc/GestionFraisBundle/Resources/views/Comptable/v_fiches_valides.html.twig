@@ -1,0 +1,13 @@
+{% extends "ccGestionFraisBundle:Comptable:v_sommaire.html.twig" %}
+
+{% block contenu %}
+        
+        <h3>Fiches validées :</h3>
+        
+        <ul>
+            {% for fiche in lesFiches %}
+                <li>{{ fiche.mois }}</li>
+            {% endfor %}
+        </ul>
+        
+{% endblock %}

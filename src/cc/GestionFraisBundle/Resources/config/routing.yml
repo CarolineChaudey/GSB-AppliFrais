@@ -46,3 +46,27 @@ comptable:
 validerFiches:
     path:    /comptable/FichesAValider
     defaults:  {_controller:  ccGestionFraisBundle:Comptable:validerFiches}
+
+consulterFiche:
+    path:    /comptable/consulter/{idVis}-{mois}
+    defaults: {_controller: ccGestionFraisBundle:Comptable:consulterFiche}
+    requirements:
+        isVis: \d+
+        mois: \d{6}
+
+supprimerFrais:
+    path:    /comptable/supprFrais/{id}
+    defaults:  {_controller:  ccGestionFraisBundle:Comptable:supprimerFrais}
+    requirements:
+        id: \d+
+        
+validerFiche:
+    path: /comptable/valider/{idVis}-{mois}
+    defaults: {_controller: ccGestionFraisBundle:Comptable:validerFiche}
+    requirements:
+        isVis: \d+
+        mois: \d{6}
+
+suivre:
+    path: /comptable/suivre
+    defaults: {_controller: ccGestionFraisBundle:Comptable:suivreFiches}
