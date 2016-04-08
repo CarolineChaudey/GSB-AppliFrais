@@ -43,7 +43,10 @@
                     <td> {{ unfhf.date }} </td>
                     <td> {{ unfhf.libelle }} </td>
                     <td> {{ unfhf.montant }} </td>
-                    <td> <a href="{{ url('supprimerFrais', {'id' : unfhf.id} ) }}"><button>Supprimer</button></a> </td>
+                    <td>
+                        <a href="{{ url('supprimerFrais', {'id' : unfhf.id} ) }}"><button>Supprimer</button></a>
+                        <a><button>Reporter</button></a>
+                    </td>
                 </tr>
                 
                 {% endfor %}
