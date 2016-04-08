@@ -3,10 +3,16 @@
 {% block contenu %}
         
         <h3>Fiches validées :</h3>
+
+        {% if lesFiches|length == 0 %}
+            <span>Pas de fiches validées pour le moment.</span>
+        {% endif %}
         
-        <ul>
+        <ul>    
             {% for fiche in lesFiches %}
-                <li>{{ fiche.mois }}</li>
+                <a href="{{ url('vueFicheRemboursement', {'idVis' : fiche.idVisiteur.id, 'mois' : fiche.mois}) }}">
+                    <li>Fiche de {{ fiche.idvisiteur.prenom }} {{ fiche.idvisiteur.nom }} du {{ fiche.mois }}</li>
+                </a>
             {% endfor %}
         </ul>
         

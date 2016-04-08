@@ -20,10 +20,10 @@ class FichefraisRepository extends EntityRepository{
      public function trouverFichesValides(){
          
          $fiches = $this->createQueryBuilder('f')
-                ->where('f.idEtat = :etat')
+                ->where('f.idetat = :etat')
                 ->setParameter('etat', 'VA')
                 ->getQuery()
-                ->getOneOrNullResult();
+                ->getResult();
         return $fiches;
      }
     

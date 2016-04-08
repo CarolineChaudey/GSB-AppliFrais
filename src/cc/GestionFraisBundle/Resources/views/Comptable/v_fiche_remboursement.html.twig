@@ -1,0 +1,65 @@
+
+{% extends "ccGestionFraisBundle:Comptable:v_sommaire.html.twig" %}
+
+{% block contenu %}
+    <h3>Fiche de {{ visiteur.nom }} {{ visiteur.prenom }} du {{ mois }} :</h3>
+    
+      
+        <h4>Eléments forfaitisés :</h4>
+        
+        <form action="traiterFrais" method="POST">
+             
+                <label>Etapes</label>
+                <span>{{ ffs.0.quantite }} </span>
+                <br>
+                <label>Kms</label>
+                <span> {{ ffs.1.quantite }} </span>
+                <br>
+                <label>Nuits</label>
+                <span> {{ ffs.2.quantite }} </span>
+                <br>
+                <label>Repas</label>
+                <span> {{ ffs.3.quantite }} </span>
+                <br><br>
+        </form>
+            
+        <div id="fraishorsforfait">
+            <table border="solid" style="width: 80%;">
+                <tr>
+                    <th>Date</th>
+                    <th>Libelle</th>
+                    <th>Quantité</th>
+                    <th>Action</th>
+                </tr>
+                <br>
+                {% for unfhf in fhfs %}
+                
+                <tr>
+                   <input type="hidden" name="id" value="{{ unfhf.id }}" />
+                    <td> {{ unfhf.date }} </td>
+                    <td> {{ unfhf.libelle }} </td>
+                    <td> {{ unfhf.montant }} </td>
+                    <td> <a href="{{ url('supprimerFrais', {'id' : unfhf.id} ) }}"><button>Supprimer</button></a> </td>
+                </tr>
+                
+                {% endfor %}
+                
+            </table>
+           
+            <br><br>
+            
+            <div>
+                Justificatifs validés : {{ fiche.nbJustificatifs }} <br>
+                Montant total validé : {{ fiche.montantValide }}
+            </div>
+            
+        </div>
+        <br>
+        
+        <center>
+            <a href="{{ url('rembourserFiche', {'idVis' : visiteur.id, 'mois' : mois}) }}"><button>Indiquer la fiche la comme remboursée</button></a>
+        </center>
+        
+            
+{% endblock %}
+

@@ -70,3 +70,11 @@ validerFiche:
 suivre:
     path: /comptable/suivre
     defaults: {_controller: ccGestionFraisBundle:Comptable:suivreFiches}
+
+vueFicheRemboursement:
+    path:    /comptable/fiche/{idVis}-{mois}
+    defaults: {_controller: ccGestionFraisBundle:Comptable:vueFicheRemboursement}
+    
+rembourserFiche:
+    path:    /comptable/remboursement/{idVis}-{mois}
+    defaults:  {_controller:  ccGestionFraisBundle:Comptable:rembourserFiche}

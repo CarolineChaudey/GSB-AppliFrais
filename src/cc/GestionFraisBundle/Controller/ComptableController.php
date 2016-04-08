@@ -119,5 +119,32 @@ class ComptableController extends Controller
                                                                                                 'lesFiches' => $lesFiches));
     }
     
+    public function vueFicheRemboursementAction(Request $request, $idVis, $mois){
+        $modele = $this->container->get('modele');
+        $repo = $this->getDoctrine()->getRepository('ccGestionFraisBundle:Visiteur');
+        
+        $fiche = $modele->getLesInfosFicheFrais($idVis,$mois);
+        $user = $request->getSession()->get('user');
+        $visiteur = $repo->find($idVis);
+        $ffs = $modele->getLesFraisForfait($idVis, $mois);
+        $fhfs = $modele->getLesFraisHorsForfait($idVis, $mois);
+        
+        return $this->render('ccGestionFraisBundle:Comptable:v_fiche_remboursement.html.twig', array(
+                "user" => $user,
+                'fiche' => $fiche,
+                'ffs' => $ffs,
+                'fhfs' => $fhfs,
+                'visiteur' => $visiteur,
+                'mois' => $mois
+            ));    
+    }
+    
+    public function rembourserFicheAction(Request $request, $idVis, $mois){
+        $modele = $this->container->get('modele');
+        $modele->majEtatFicheFrais($idVis,$mois,'RB');
+        
+        return $this->redirectToRoute('suivre');
+    }
+    
 }
 
