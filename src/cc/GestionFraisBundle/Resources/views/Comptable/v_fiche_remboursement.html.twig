@@ -24,7 +24,7 @@
         </form>
             
         <div id="fraishorsforfait">
-            <table border="solid" style="width: 80%;">
+            <table class="listeLegere">
                 <tr>
                     <th>Date</th>
                     <th>Libelle</th>
@@ -57,7 +57,9 @@
         <br>
         
         <center>
-            <a href="{{ url('rembourserFiche', {'idVis' : visiteur.id, 'mois' : mois}) }}"><button>Indiquer la fiche la comme remboursée</button></a>
+            <a href="{{ url('rembourserFiche', {'idVis' : visiteur.id, 'mois' : mois}) }}">
+                <button class="validerFiche">Indiquer comme remboursée</button>
+            </a>
         </center>
         
             

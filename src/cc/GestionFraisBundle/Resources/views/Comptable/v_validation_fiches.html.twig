@@ -6,6 +6,12 @@
     <h3>Saisissez le visiteur et le mois pour lequel vous voulez consulter une fiche de frais</h3>
     <p>Le mois est à entrer au format année-mois (exemple : 2016-02)</p>
     
+    {% for flash_message in app.session.flashBag.get('notice') %}
+    <div class="info">
+        {{ flash_message }}
+    </div>
+    {% endfor %}
+    
     {{ form_start(form) }}
         {{ form_errors(form) }}
         
@@ -16,15 +22,11 @@
         {{ form_errors(form.mois) }}
         {{ form_label(form.mois, "Mois") }}
         {{ form_widget(form.mois) }}
-        
+        <div>
+            {{ form_widget(form.Rechercher, {'attr' : {'class' : 'rechercher'} }) }}
+            {{ form_widget(form.Annuler) }}
+        </div>
         {{ form_rest(form) }}
     {{ form_end(form) }}
-    
-    {#
-    {% for unVisiteur in lesVisiteurs %}
-        {{unVisiteur.id}}
-        <br>
-    {% endfor %}
-    #}
     
 {% endblock %}

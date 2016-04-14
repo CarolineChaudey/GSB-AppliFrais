@@ -28,12 +28,12 @@
         </form>
             
         <div id="fraishorsforfait">
-            <table border="solid" style="width: 80%;">
+            <table class="listeLegere">
                 <tr>
                     <th>Date</th>
                     <th>Libelle</th>
                     <th>Quantité</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
                 <br>
                 {% for unfhf in fhfs %}
@@ -44,8 +44,8 @@
                     <td> {{ unfhf.libelle }} </td>
                     <td> {{ unfhf.montant }} </td>
                     <td>
-                        <a href="{{ url('supprimerFrais', {'id' : unfhf.id} ) }}"><button>Supprimer</button></a>
-                        <a><button>Reporter</button></a>
+                        <a href="{{ url('supprimerFrais', {'id' : unfhf.id} ) }}"><button class="supprimer">Supprimer</button></a>
+                        <a href="{{ url('reporterFrais', {'id' : unfhf.id}) }}" ><button class="reporter">Reporter</button></a>
                     </td>
                 </tr>
                 
@@ -64,7 +64,9 @@
         </div>
         <br>
         <center>
-            <a href="{{ url('validerFiche', {'idVis' : visiteur.id, 'mois' : mois}) }}"><button>VALIDER LA FICHE!</button></a>
+            <a href="{{ url('validerFiche', {'idVis' : visiteur.id, 'mois' : mois}) }}">
+                <button class="validerFiche">VALIDER LA FICHE!</button>
+            </a>
         </center>
             
     {% endif %}

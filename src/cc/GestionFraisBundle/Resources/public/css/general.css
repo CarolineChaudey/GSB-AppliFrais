@@ -13,18 +13,15 @@ body{
     margin:0% 0%;
     padding : 0.6em;
     font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
-    font-size:0.8em;
-}
-
-#fhfacuels {
-    
+    font-size: 20px;
 }
 
 #page {
   background-color:white;
-  width : 65%;
+  width : 80%;
+  min-height: 80%;
   margin : auto ;
-  border : 0.2em solid black;
+  //border : 0.2em solid black;
   padding : 0.1em;
 }
 #entete{
@@ -51,7 +48,8 @@ body{
 	color: rgb(0,85,227);
 	float: left;
 	width: 14%;
-        margin-bottom: 100%;
+        //margin-bottom: 100%;
+        height: 100%;
 }
 
 #contenu{
@@ -172,11 +170,41 @@ input, button, textarea, select{
   font-size : 1em;
 }
 button{
-  width : 60px;
+  width : 90px;
   height : 30px;
   text-align:center;
   vertical-align:middle;
 }
+
+.supprimer {
+  width : 120px;
+  height : 30px;
+  text-align:center;
+  vertical-align:middle;
+  background-color: rgb(237,210,229);
+}
+
+.reporter {
+  width : 100px;
+  height : 30px;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.rechercher {
+  width : 130px;
+  height : 30px;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.validerFiche {
+  width : 130px;
+  height : 100px;
+  text-align:center;
+  vertical-align:middle;
+}
+
 input:hover, textarea:hover, select:hover{
   background-color : #FAFAE6;
   cursor : pointer;
@@ -188,7 +216,7 @@ taille de caractères légèrement supérieure à la normale */
    background-color:rgb(237,210,229);
    color:rgb(203,28,128);
    font-size:1.1em;
-   width:95%;
+   width:400px;
 }
 .centre {
   text-align:center;

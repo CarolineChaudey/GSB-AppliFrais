@@ -370,5 +370,9 @@ class Modele{
            return $lesLignes;
        }
        
+       public function changerMoisFraisHorsForfait($id, $mois){
+           $req = "update LigneFraisHorsForfait set mois = ".$mois." where id = ".$id." ";
+           Modele::$monPdo->exec($req);
+       }
 }
 ?>

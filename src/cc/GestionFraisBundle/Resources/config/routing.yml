@@ -78,3 +78,9 @@ vueFicheRemboursement:
 rembourserFiche:
     path:    /comptable/remboursement/{idVis}-{mois}
     defaults:  {_controller:  ccGestionFraisBundle:Comptable:rembourserFiche}
+
+reporterFrais:
+    path:    /comptable/reporter-frais/{id}
+    defaults:  {_controller:  ccGestionFraisBundle:Comptable:reporterFrais}
+    requirements:
+        id: \d+

@@ -40,6 +40,14 @@ class ComptableController extends Controller
             $mois = $mois1.$mois2;
             
             $fiche = $modele->getLesInfosFicheFrais($visiteur->getId(),$mois);
+            if($fiche === FALSE){
+                $this->addFlash('notice', 'Pas de fiche de frais pour ce visiteur ce mois.');
+                return $this->redirectToRoute('validerFiches');
+            }
+            elseif ($fiche['idEtat'] === 'VA') {
+                $this->addFlash('notice', 'Cette fiche a déjà été validée.');
+                return $this->redirectToRoute('validerFiches');
+            }
             
             return $this->redirectToRoute('consulterFiche', array('idVis' => $fiche['idVis'],
                                                                     'mois' => $fiche['mois']) );
@@ -130,7 +138,7 @@ class ComptableController extends Controller
         $fhfs = $modele->getLesFraisHorsForfait($idVis, $mois);
         
         return $this->render('ccGestionFraisBundle:Comptable:v_fiche_remboursement.html.twig', array(
-                "user" => $user,
+                'user' => $user,
                 'fiche' => $fiche,
                 'ffs' => $ffs,
                 'fhfs' => $fhfs,
@@ -144,6 +152,53 @@ class ComptableController extends Controller
         $modele->majEtatFicheFrais($idVis,$mois,'RB');
         
         return $this->redirectToRoute('suivre');
+    }
+    
+    public function reporterFraisAction(Request $request, $id){
+        $modele = $this->container->get('modele');
+        $em = $this->getDoctrine()->getManager();
+        
+        // récupérer l'utilisateur
+        $user = $request->getSession()->get('user');
+        
+        // récupérer le frais hors forfait
+        $leFHF = $modele->getFraisHorsForfait($id);
+        // on sauvegarde le vieux mois pour pouvoir l'envoyer à la vue qu'on retourne
+        $moisAvant = $leFHF['mois'];
+        // traitement du mois concerné
+        $moisAvant = $leFHF['mois'];
+        $moisEntier = $leFHF['mois'];
+        $annee = intval(substr($moisEntier, 0, 4));
+        $mois = intval(substr($moisEntier, 4, 2));
+        
+        // on vérifie qu'on est pas à la fin de l'année
+        if($mois < 12){
+           $mois++; 
+           if($mois < 10){
+               $mois = "0".strval($mois);
+           }
+        }
+        else{
+            $mois = "01";
+            $annee++;
+        }
+        $mois = strval($mois);
+        $annee = strval($annee);
+        // on recréé un mois
+        $moisEntier = $annee.$mois;
+        
+        // si la fiche de ce mois n'existe pas on la créé
+        if( $modele->getLesInfosFicheFrais($leFHF['idVisiteur'], $moisEntier) == NULL){
+            $modele->creeNouvellesLignesFrais($leFHF['idVisiteur'],$moisEntier);
+        }
+        
+        // changer le mois
+        $modele->changerMoisFraisHorsForfait($id, $moisEntier);
+          
+        
+        return $this->redirectToRoute('consulterFiche', array(  'user' => $user,
+                                                                'idVis' => $leFHF['idVisiteur'],
+                                                                'mois' => $moisAvant));
     }
     
 }

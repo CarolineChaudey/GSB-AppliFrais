@@ -8,7 +8,7 @@
 {% block corps %}
     
     {% for flash_message in app.session.flashbag.get('fail') %}
-        <div class="erreurco" >
+        <div class="erreur" >
             {{flash_message}}
         </div>
     {% endfor %}

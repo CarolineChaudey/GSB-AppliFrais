@@ -17,3 +17,13 @@ and open the template in the editor.
     width: 50%;
     border-width: 1px;
 }
+
+.info {
+    background-color: #70ff70;
+    margin: 10px;
+    padding: 10px;
+    border: solid;
+    border-radius: 10px;
+    width: 50%;
+    border-width: 1px;
+}
