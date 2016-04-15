@@ -4,7 +4,7 @@
 {% block corps %}
     
     {% block sommaire %}
-        
+        <!--
     <div id="menuGauche">
      <div id="infosUtil">
     
@@ -25,7 +25,20 @@
            </li>
          </ul>
         
-    </div>
+    </div> -->
+                                
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                Comptable : {{ user.prenom }} {{user.nom}}
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('validerFiches') }}">Valider des fiches de frais</a></li>
+                <li><a href="{{ path('suivre') }}">Suivre des fiches de frais</a></li>
+                <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
+            </ul>
+        </div>
+    </nav>
         
     {% endblock %}
     

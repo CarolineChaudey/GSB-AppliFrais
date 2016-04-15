@@ -336,4 +336,14 @@ table.listeLegere th.libelle{
 
 }
 
-
+.barre-menu {
+    width: 100%;
+    height: 50px;
+    background-color: #aaa;
+}
+/*
+.element-menu {
+    display: inline;
+    height: 100%;
+}
+*/

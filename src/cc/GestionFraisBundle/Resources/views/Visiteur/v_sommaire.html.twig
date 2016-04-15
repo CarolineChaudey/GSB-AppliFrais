@@ -5,28 +5,41 @@
 {% block corps %}
     
     {% block sommaire %}
-        
-    <div id="menuGauche">
-     <div id="infosUtil">
-    
-      </div>  
-        <ul id="menuList">
-			<li >
-				  Visiteur :<br>
+        <!--
+    <nav class="navbar navbar-default">
+     <div id="infosUtil"></div>  
+        <div class="navbar-header">
+				  Visiteur :
                                 {{ user.prenom }} {{user.nom}}
-			</li>
-           <li class="smenu">
+	</div>
+        <ul id="nav navbar-nav">
+			
+           <li class="element-menu">
               <a href="{{ path('saisieFiche') }}" title="Saisie fiche de frais ">Saisie fiche de frais</a>
            </li>
-           <li class="smenu">
+           <li class="element-menu">
               <a href="{{ path('consulterFrais') }}" title="Consultation de mes fiches de frais">Mes fiches de frais</a>
            </li>
- 	   <li class="smenu">
+ 	   <li class="element-menu">
               <a href="{{ path('deconnexion') }}" title="Se déconnecter">Déconnexion</a>
            </li>
          </ul>
         
-    </div>
+    </nav> -->
+    
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                Visiteur : {{ user.prenom }} {{user.nom}}
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('saisieFiche') }}">Saisie fiche de frais</a></li>
+                <li><a href="{{ path('consulterFrais') }}">Consultation de mes fiches de frais</a></li>
+                <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
+            </ul>
+        </div>
+    </nav>
+                                
     {% endblock %}
     
     {% block contenu %}
