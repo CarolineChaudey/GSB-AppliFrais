@@ -3,6 +3,7 @@
 namespace cc\GestionFraisBundle\BaseDeDonnees\Services;
 
 use PDO;
+use Symfony\Component\HttpFoundation\Response;
 
 /** 
  * Classe d'accès aux données. 
@@ -25,7 +26,7 @@ use PDO;
 
 class Modele{   		
       	private static $serveur='mysql:host=localhost';
-      	private static $bdd='dbname=AppliFrais';   		
+      	private static $bdd='dbname=gestionfrais';   		
       	private static $user='root' ;    		
       	private static $mdp='mysql' ;	
 		private static $monPdo;
@@ -180,7 +181,6 @@ class Modele{
 			and LigneFraisForfait.idfraisforfait = '$unIdFrais'";
 			Modele::$monPdo->exec($req);
 		}
-		
 	}
 /**
  * met à jour le nombre de justificatifs de la table ficheFrais
@@ -278,6 +278,11 @@ class Modele{
 		$req = "update LigneFraisHorsForfait set libelle = concat('REFUSE',libelle) where LigneFraisHorsForfait.id =$idFrais ";
 		Modele::$monPdo->exec($req);
 	}
+        
+        public function annulerFraisHorsForfait($idFrais){
+            $req = "delete from LigneFraisHorsForfait where id = ".$idFrais;
+            Modele::$monPdo->exec($req);
+        }
         
         public function majFraisHorsForfait($liste){
             $req = "";

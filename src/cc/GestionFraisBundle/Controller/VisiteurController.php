@@ -15,8 +15,7 @@ class VisiteurController extends Controller
     public function saisieAction(Request $request){
         
         $modele = $this->container->get('modele');
-        $user = $request->getSession()->get("user");
-        
+        $user = $request->getSession()->get("user"); 
         $mois = sprintf("%04d%02d", date("Y"), date("m"));
         $nouvMois = $modele->estPremierFraisMois($user["id"], $mois);
         
@@ -25,51 +24,69 @@ class VisiteurController extends Controller
         }
         
         $fraisforfaits = $modele->getLesFraisForfait($user["id"], $mois);
-       
-        
         $fhf = $modele->getLesFraisHorsForfait($user["id"], $mois);
         
-        $mois = $modele->dernierMoisSaisi($user["id"]);
+        //$mois = $modele->dernierMoisSaisi($user["id"]);
         $fiche = $modele->getLesInfosFicheFrais($user["id"], $mois);
+        
+        // formulaire des frais forfaitisés
+        $formFF = $this->get('form.factory')->createNamedBuilder("ff")
+                ->add('etapes', 'integer', array('data' => $fraisforfaits['0']['quantite'],
+                                                    'attr' => array('min' => 0)))
+                ->add('kms', 'integer', array('data' => $fraisforfaits['1']['quantite'],
+                                                    'attr' => array('min' => 0)))
+                ->add('nuits', 'integer', array('data' => $fraisforfaits['2']['quantite'],
+                                                    'attr' => array('min' => 0)))
+                ->add('repas', 'integer', array('data' => $fraisforfaits['3']['quantite'],
+                                                    'attr' => array('min' => 0)))
+                ->add('valider', 'submit', array('label' => 'Valider'))
+                ->add('annuler', 'reset', array('label' => 'Annuler'))
+                ->getForm();
+        
+        // formulaire des frais hors forfait
+        $formFHF = $this->get('form.factory')->createNamedBuilder("fhf")
+                ->add('date', 'date', array('label' => 'Date', 'data' => new \DateTime()))
+                ->add('libelle', 'text', array('label' => 'Libelle'))
+                ->add('montant', 'number', array('label' => 'Montant', 'scale' => 2))
+                ->add('valider', 'submit', array('label' => 'Créer'))
+                ->getForm();
+        
+        if('POST' === $request->getMethod()){
+            if($request->request->has('ff')){
+                $formFF->handleRequest($request);
+                $result = array(
+                            'ETP' => $formFF['etapes']->getData(),
+                            'KM' => $formFF['kms']->getData(),
+                            'NUI' => $formFF['nuits']->getData(),
+                            'REP' => $formFF['repas']->getData()
+                );
+                
+                $modele->majFraisForfait($user["id"], $mois, $result);
+                return $this->redirectToRoute('saisieFiche');
+            }
+            elseif($request->request->has('fhf')){
+                $formFHF->handleRequest($request);
+                $date = date_format($formFHF['date']->getData(), 'Y-m-d');
+                $modele->creerNouveauFraisHorsForfait($user["id"],$mois,$formFHF['libelle']->getData(),
+                        $date,$formFHF['montant']->getData());
+        
+                return $this->redirectToRoute('saisieFiche');
+            }
+        }
         
         return $this->render('ccGestionFraisBundle:Visiteur:v_saisie.html.twig', array("user" => $user,
                                                                                         "fiche" => $fiche,
                                                                                         "mois" => $mois,
-                                                                                        "fhfactuels" => $fhf,
-                                                                                        "fraisforfait" => $fraisforfaits
+                                                                                        "formFF" => $formFF->createView(),
+                                                                                        "formFHF" => $formFHF->createView(),
+                                                                                        "fhfactuels" => $fhf
                                                                                         ));
     }
     
-    public function traiterFraisAction(Request $request){
-        $mois = sprintf("%04d%02d", date("Y"), date("m"));
+    public function supprimerFraisAction(Request $request, $id){
+        //$id = $_POST['id'];
         $modele = $this->container->get('modele');
-        $user = $request->getSession()->get("user");
-        
-        $result = array(
-                'ETP' => $_POST['nbEtapes'],
-                'KM' => $_POST['nbKms'],
-                'NUI' => $_POST['nbNuits'],
-                'REP' => $_POST['nbRepas']
-            );
-        $modele->majFraisForfait($user["id"], $mois, $result);
-       
-        return $this->redirectToRoute('saisieFiche');
-    }
-    
-    public function supprimerFraisAction(Request $request){
-        $id = $_POST['id'];
-        $modele = $this->container->get('modele');
-        $modele->supprimerFraisHorsForfait($id);
-        
-        return $this->redirectToRoute('saisieFiche');
-    }
-    
-    public function creerFraisAction(Request $request){
-        $modele = $this->container->get('modele');
-        $user = $request->getSession()->get("user");
-        $mois = sprintf("%04d%02d", date("Y"), date("m"));
-        $modele->creerNouveauFraisHorsForfait($user["id"],
-                $mois,$_POST['libelle'],$_POST['date'],$_POST['montant']);
+        $modele->annulerFraisHorsForfait($id);
         
         return $this->redirectToRoute('saisieFiche');
     }

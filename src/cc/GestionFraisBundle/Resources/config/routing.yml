@@ -21,8 +21,10 @@ traiterFrais:
     defaults:  {_controller: ccGestionFraisBundle:Visiteur:traiterFrais}
     
 supprFrais:
-    path:   /visiteur/supprFrais
+    path:   /visiteur/supprFrais/{id}
     defaults:  {_controller: ccGestionFraisBundle:Visiteur:supprimerFrais}
+    requirements:
+        id : \d+
     
 creerFrais:
     path:   /visiteur/creerFrais

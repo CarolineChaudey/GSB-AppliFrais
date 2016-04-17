@@ -7,25 +7,8 @@
     
        
         <h4>Eléments forfaitisés :</h4>
+        {{ form(formFF) }}
         
-        <form action="traiterFrais" method="POST">
-             
-                <label>Etapes</label>
-                <input type="number" name="nbEtapes" value="{{ fraisforfait.0.quantite }}"/>
-                <br>
-                <label>Kms</label>
-                <input type="number" name="nbKms" value="{{ fraisforfait.1.quantite }}"/>
-                <br>
-                <label>Nuits</label>
-                <input type="number" name="nbNuits" value="{{ fraisforfait.2.quantite }}" />
-                <br>
-                <label>Repas</label>
-                <input type="number" name="nbRepas" value="{{ fraisforfait.3.quantite }}" />
-                <br><br>
-                <input type="submit" />
-                <input type="reset" value="Annuler" />
-        </form>
-            
         <div id="fraishorsforfait">
             <table class="listeLegere">
                 <tr>
@@ -36,33 +19,27 @@
                 </tr>
                 <br>
                 {% for unfhf in fhfactuels %}
-                <form action="supprFrais" method="POST">
-                    <tr>
-                        <input type="hidden" name="id" value="{{ unfhf.id }}" />
-                        <td> {{ unfhf.date }} </td>
-                        <td> {{ unfhf.libelle }} </td>
-                        <td> {{ unfhf.montant }} </td>
-                        <td> <button class="supprimer">Supprimer</button> </td>
-                    </tr>
-                </form>     
+                <tr>
+                    <!-- <input type="hidden" name="id" value="{# unfhf.id #}" /> -->
+                    <td> {{ unfhf.date }} </td>
+                    <td> {{ unfhf.libelle }} </td>
+                    <td> {{ unfhf.montant }} </td>
+                    <td> <a href="{{ url('supprFrais', {'id' : unfhf.id}) }}"><button class="supprimer">Supprimer</button></a> </td>
+                </tr>    
                 {% endfor %}
-                <form action="creerFrais" method="POST">
-                    <tr>
-                        <td> <input type="date" name="date" /> </td>
-                        <td> <input type="text" name="libelle" /> </td>
-                        <td> <input type="number" name="montant" step="0.01" /> </td>
-                        <td> <input type="submit" value="Créer" /> </td>
-                    </tr>
-                </form>
+                
+                <tr>
+                    {{ form_start(formFHF) }}
+                    <td>{{ form_widget(formFHF.date) }}</td>
+                    <td>{{ form_widget(formFHF.libelle) }}</td>
+                    <td>{{ form_widget(formFHF.montant) }}</td>
+                    <td>{{ form_widget(formFHF.valider) }}</td>
+                    {{ form_end(formFHF) }}
+                </tr>
             </table>
            
             <br><br>
-            {#
-            <div>
-                Justificatifs validés : {{ fiche.nbJustificatifs }} <br>
-                Montant total validé : {{ fiche.montantValide }}
-            </div>
-            #}
+            
         </div>
                 <br><br>
         
